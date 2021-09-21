@@ -15,10 +15,10 @@ using namespace std;
 
 class point{
     public:
-        int x;
-        int y;
+        int row;
+        int col;
         bool visited;
-        point(int x, int y, bool visited);
+        point(int row, int col, bool visited);
 };
 
 #endif
