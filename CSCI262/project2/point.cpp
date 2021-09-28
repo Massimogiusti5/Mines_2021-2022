@@ -13,8 +13,8 @@
 #include <string>
 using namespace std;
 
-point::point(int x, int y, bool visited){
-        this->x = x;
-        this->y = y;
+point::point(int row, int col, bool visited){
+        this->row = row;
+        this->col = col;
         this->visited = visited;
 }

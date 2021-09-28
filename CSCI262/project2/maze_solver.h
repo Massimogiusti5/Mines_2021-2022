@@ -62,6 +62,9 @@ private:
     void _pause();
     void traverse_points_stack(int x, int y);
     void traverse_points_queue(int x, int y);
+    void _step_with_stack();
+    void _step_with_queue();
+
 
 };
 

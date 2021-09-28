@@ -129,77 +129,9 @@ void maze_solver::_initialize() {
 */
 void maze_solver::_step() {
 	if(_use_stack){
-		//traversing with stack
-		if (_stack.empty()){
-			_no_more_steps = true;
-			return;
-		}
-		point p = _stack.top();
-		_stack.pop();
-		if(_maze.at(p.x)[p.y] == '*'){
-			_goal_reached = true;
-			_no_more_steps = true;
-			return;
-		}
-		//if p is visited ignore point
-		if(p.visited ){
-			_stack.pop();
-		}else{
-			//mark as visited
-			if(_maze.at(p.x)[p.y] != 'o'){
-				_maze.at(p.x)[p.y] = '@';
-			}
-			p.visited = true;
-			//check for boundaries and valid point
-			if(p.x != _maze.at(p.x).size()){
-				traverse_points_stack(p.x+1,p.y);
-			}
-			if(p.y != _maze.size()){
-				traverse_points_stack(p.x,p.y+1);
-			}
-			if(p.x != 0){
-				traverse_points_stack(p.x-1,p.y);
-			}
-			if(p.y != 0){
-				traverse_points_stack(p.x,p.y-1);
-			}		
-		}
+		_step_with_stack();
 	}else{
-		//traversing with queue
-		if (_queue.empty()){
-			_no_more_steps = true;
-			return;
-		}
-		point p = _queue.front();
-		_queue.pop();
-		if(_maze.at(p.x)[p.y] == '*'){
-			_goal_reached = true;
-			_no_more_steps = true;
-			return;
-		}
-		//if visited ignore point
-		if(p.visited ){
-			_queue.pop();
-		}else{
-			//set to visited
-			if(_maze.at(p.x)[p.y] != 'o'){
-				_maze.at(p.x)[p.y] = '@';
-			}
-			p.visited = true;
-			//check for boundaries and valid point
-			if(p.x != _maze.at(p.x).size()){
-				traverse_points_queue(p.x+1,p.y);
-			}
-			if(p.y != _maze.size()){
-				traverse_points_queue(p.x,p.y+1);
-			}
-			if(p.x != 0){
-				traverse_points_queue(p.x-1,p.y);
-			}
-			if(p.y != 0){
-				traverse_points_queue(p.x,p.y-1);
-			}	
-		}	
+		_step_with_queue();
 	}
 }
 
@@ -210,6 +142,84 @@ void maze_solver::traverse_points_stack(int x, int y){
 		_stack.push(_new_point);
 	}
 }
+
+void maze_solver::_step_with_stack(){
+//traversing with stack
+	if (_stack.empty()){
+		_no_more_steps = true;
+		return;
+	}
+	point p = _stack.top();
+	_stack.pop();
+	if(_maze.at(p.row)[p.col] == '*'){
+		_goal_reached = true;
+		_no_more_steps = true;
+		return;
+	}
+	//if p is visited ignore point
+	if(p.visited ){
+		_stack.pop();
+	}else{
+		//mark as visited
+		if(_maze.at(p.row)[p.col] != 'o'){
+			_maze.at(p.row)[p.col] = '@';
+		}
+		p.visited = true;
+		//check for boundaries and valid point
+		if(p.row != _maze.at(p.row).size()){
+			traverse_points_stack(p.row+1,p.col);
+		}
+		if(p.col != _maze.size()){
+			traverse_points_stack(p.row,p.col+1);
+		}
+		if(p.row != 0){
+			traverse_points_stack(p.row-1,p.col);
+		}
+		if(p.col != 0){
+			traverse_points_stack(p.row,p.col-1);
+		}		
+	}
+}
+
+void maze_solver::_step_with_queue(){
+	//traversing with queue
+	if (_queue.empty()){
+		_no_more_steps = true;
+		return;
+	}
+	point p = _queue.front();
+	_queue.pop();
+	if(_maze.at(p.row)[p.col] == '*'){
+		_goal_reached = true;
+		_no_more_steps = true;	
+		return;
+	}
+	//if visited ignore point
+	if(p.visited ){
+		_queue.pop();
+	}else{
+		//set to visited
+		if(_maze.at(p.row)[p.col] != 'o'){
+			_maze.at(p.row)[p.col] = '@';
+		}
+		p.visited = true;
+		//check for boundaries and valid point
+		if(p.row != _maze.at(p.row).size()){
+			traverse_points_queue(p.row+1,p.col);
+		}
+		if(p.col != _maze.size()){
+			traverse_points_queue(p.row,p.col+1);
+		}
+		if(p.row != 0){
+			traverse_points_queue(p.row-1,p.col);
+		}
+		if(p.col != 0){
+			traverse_points_queue(p.row,p.col-1);
+		}	
+	}	
+}
+
+
 
 //helper function for queue
 void maze_solver::traverse_points_queue(int x, int y){
