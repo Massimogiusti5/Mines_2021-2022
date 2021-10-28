@@ -32,6 +32,7 @@ private:
 	char _data[ARRAY_SZ];
 	int _front = 0;
 	int _back = 0;
+	int _size = 0;
 };
 
 #endif

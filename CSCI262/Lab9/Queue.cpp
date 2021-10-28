@@ -19,9 +19,11 @@
 using namespace std;
 
 bool Queue::enqueue(char c){
-    if (size() != ARRAY_SZ){
+    if (_size != ARRAY_SZ){
         _data[_back] = c;
         _back++;
+        _back = _back % 6;
+        _size++;
         return true;
     }
     return false;
@@ -30,8 +32,21 @@ bool Queue::enqueue(char c){
 bool Queue::dequeue(){
     if(size() != 0){
         _front++;
+        _front = _front % 6;
+        _size--;
         return true;
     }
     return false;
 }
 
+char Queue::front(){
+    return _data[_front];
+}
+
+bool Queue::is_empty(){
+    return (_size == 0);
+}
+
+int Queue::size(){
+    return _size;
+}
